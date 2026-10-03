@@ -15,13 +15,13 @@ let headers = await resp.json();
 assert.equal(headers['User-Agent'], "Lightpanda/1.0");
 assert.equal(headers['Sec-Ch-Ua'], '"Lightpanda";v="1"');
 
-// Mozilla is ignored
+// Browser identity overrides are accepted.
 await page.setUserAgent("Mozilla/5.0");
 
 resp = await page.goto('http://127.0.0.1:1234/get/headers', {waitUntil: 'load'});
 headers = await resp.json();
 
-assert.equal(headers['User-Agent'], "Lightpanda/1.0");
+assert.equal(headers['User-Agent'], "Mozilla/5.0");
 assert.equal(headers['Sec-Ch-Ua'], '"Lightpanda";v="1"');
 
 // Override UA

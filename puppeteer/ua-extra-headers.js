@@ -9,7 +9,7 @@ const browser = await connectBrowser();
 const context = await browser.createBrowserContext();
 const page = await context.newPage();
 
-// Mozilla is ignored
+// Browser identity headers supplied by CDP are accepted.
 await page.setExtraHTTPHeaders({
     "User-Agent": "Mozilla/5.0",
     "Sec-Ch-Ua": "Mozilla/5.0",
@@ -18,8 +18,8 @@ await page.setExtraHTTPHeaders({
 let resp = await page.goto('http://127.0.0.1:1234/get/headers', {waitUntil: 'load'});
 let headers = await resp.json();
 
-assert.equal(headers['User-Agent'], "Lightpanda/1.0");
-assert.equal(headers['Sec-Ch-Ua'], '"Lightpanda";v="1"');
+assert.equal(headers['User-Agent'], "Mozilla/5.0");
+assert.equal(headers['Sec-Ch-Ua'], "Mozilla/5.0");
 
 // Override UA
 await page.setExtraHTTPHeaders({
